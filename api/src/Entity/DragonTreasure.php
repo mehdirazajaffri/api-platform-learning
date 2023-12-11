@@ -14,6 +14,8 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use function Symfony\Component\String\u;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 
@@ -47,7 +49,9 @@ class DragonTreasure
     #[ORM\Column(length: 255)]
     #[Groups(['treasure:read', 'treasure:write'])]
     #[ApiFilter(SearchFilter::class, strategy: 'partial')]
-    private string $name;
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 2, max: 50, maxMessage: 'Describe your loot in 50 chars or less')]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['treasure:read'])]
@@ -56,6 +60,7 @@ class DragonTreasure
     #[ORM\Column(nullable: true)]
     #[Groups(['treasure:read', 'treasure:write'])]
     #[ApiFilter(RangeFilter::class)]
+    #[Assert\GreaterThanOrEqual(0)]
     private ?int $value = null;
 
     #[ORM\Column(nullable: true)]
