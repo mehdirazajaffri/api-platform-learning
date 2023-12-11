@@ -57,6 +57,7 @@ final class DragonTreasureFactory extends ModelFactory
             'name' => self::faker()->randomElement(self::TREASURE_NAMES),
             'plunderAt' => \DateTimeImmutable::createFromMutable(self::faker()->dateTime()),
             'value' => self::faker()->randomNumber(),
+            'owner' => UserFactory::new(),
         ];
     }
 
